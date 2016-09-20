@@ -39,10 +39,10 @@ public class Main {
 			;
 		String[] finalStates = sc.nextLine().trim().split(",");
 
-		for(String s : states)
+		for(State s : states)
 			System.out.print(s + " ");
 		System.out.println();
-		for(String s : symbols)
+		for(Symbol s : symbols)
 			System.out.print(s + " ");
 		System.out.println();
 		for(String[] c : transFunc) {
@@ -61,7 +61,7 @@ public class Main {
 			temp = sc.nextLine();
 			ArrayList<String> inputs = new ArrayList<>();
 			while(!temp.isEmpty()) {
-				for(String s : symbols) {
+				for(Symbol s : symbols) {
 					if(temp.startsWith(s)) {
 						inputs.add(s);
 						temp = temp.substring(s.length());
@@ -90,9 +90,9 @@ public class Main {
 				flag = false;
 			}
 			if(flag)
-				System.out.println("³×");
+				System.out.println("ï¿½ï¿½");
 			else
-				System.out.println("¾Æ´Ï¿ä");
+				System.out.println("ï¿½Æ´Ï¿ï¿½");
 		}
 	}
 }
