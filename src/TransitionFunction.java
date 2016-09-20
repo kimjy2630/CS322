@@ -1,23 +1,6 @@
 import java.util.*;
 
 public class TransitionFunction {
-	class Pair<F, S> {
-		private F first;
-		private S second;
-
-		public Pair(F first, S second) {
-			this.first = first;
-			this.second = second;
-		}
-
-		public F getFirst() {
-			return first;
-		}
-
-		public S getSecond() {
-			return second;
-		}
-	}
 
 	private HashMap<Pair<State, Symbol>, State> mapping;
 
@@ -27,10 +10,24 @@ public class TransitionFunction {
 
 	public boolean addMapping(State prevState, Symbol symbol, State nextState) {
 		Pair<State, Symbol> key = new Pair<>(prevState, symbol);
-		if(!mapping.containsKey(key)) {
+		if (!mapping.containsKey(key)) {
 			mapping.put(key, nextState);
 			return true;
 		}
 		return false;
+	}
+
+	public HashMap<Pair<State, Symbol>, State> getMapping() {
+		return mapping;
+	}
+
+	@Override
+	public String toString() {
+		// for(Entry c : mapping) {
+		// for(String s : c)
+		// System.out.print(s + " ");
+		// System.out.println();
+		// }
+		return mapping.toString();
 	}
 }

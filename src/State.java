@@ -5,4 +5,14 @@ public class State {
 	public State(String name) {
 		this.name = name;
 	}
+	
+	public String getName(){
+		return toString();
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+
 }
