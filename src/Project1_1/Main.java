@@ -51,7 +51,7 @@ public class Main {
 		}
 
 		String temp;
-		TransitionFunction transFunc = new TransitionFunction();
+		Function<State> transFunc = new Function<>();
 
 		while(sc.hasNextLine() && !(temp = sc.nextLine().trim()).equals("Initial state")) {
 			tmparr = temp.split(",");
@@ -153,16 +153,16 @@ public class Main {
 			// System.out.println("FINAL: " + present);
 			if(flag) {
 				if(finalStates.contains(present)) {
-					// System.out.println("³×");
-					pw.println("³×");
+					// System.out.println("ï¿½ï¿½");
+					pw.println("ï¿½ï¿½");
 					continue fdsa;
 				}
 				// else
 				// System.out.println("ASDF");
 			}
 			// System.out.println("ASDF");
-			// System.out.println("¾Æ´Ï¿ä");
-			pw.println("¾Æ´Ï¿ä");
+			// System.out.println("ï¿½Æ´Ï¿ï¿½");
+			pw.println("ï¿½Æ´Ï¿ï¿½");
 		}
 
 		// TODO

@@ -2,24 +2,24 @@ package common;
 
 import java.util.*;
 
-public class TransitionFunction {
+public class Function<T> {
 
-	private TreeMap<Pair<State, Symbol>, State> mapping;
+	private TreeMap<Pair<State, Symbol>, T> mapping;
 
-	public TransitionFunction() {
+	public Function() {
 		mapping = new TreeMap<>();
 	}
 
-	public boolean addMapping(State prevState, Symbol symbol, State nextState) {
+	public boolean addMapping(State prevState, Symbol symbol, T value) {
 		Pair<State, Symbol> key = new Pair<>(prevState, symbol);
 		if(!mapping.containsKey(key)) {
-			mapping.put(key, nextState);
+			mapping.put(key, value);
 			return true;
 		}
 		return false;
 	}
 
-	public TreeMap<Pair<State, Symbol>, State> getMapping() {
+	public TreeMap<Pair<State, Symbol>, T> getMapping() {
 		return mapping;
 	}
 
