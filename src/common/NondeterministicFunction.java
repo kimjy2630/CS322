@@ -2,19 +2,22 @@ package common;
 
 import java.util.*;
 
-public class Function<D, R> {
+public class NondeterministicFunction<D, R> {
 
-	private TreeMap<D, R> mapping;
+	private TreeMap<D, TreeSet<R>> mapping;
 
-	public Function() {
+	public NondeterministicFunction() {
 		mapping = new TreeMap<>();
 	}
 
 	public boolean addMapping(D key, R value) {
 		if(!mapping.containsKey(key)) {
-			mapping.put(key, value);
+			TreeSet<R> list = new TreeSet<>();
+			list.add(value);
+			mapping.put(key, list);
 			return true;
 		}
+		mapping.get(key).add(value);
 		return false;
 	}
 	// public boolean addMapping(State prevState, Symbol symbol, T value) {
@@ -26,7 +29,7 @@ public class Function<D, R> {
 	// return false;
 	// }
 
-	public TreeMap<D, R> getMapping() {
+	public TreeMap<D, TreeSet<R>> getMapping() {
 		return mapping;
 	}
 

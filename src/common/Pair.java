@@ -1,6 +1,6 @@
 package common;
 
-public class Pair<F extends Comparable, S extends Comparable> implements Comparable<Pair> {
+public class Pair<F extends Comparable<F>, S extends Comparable<S>> implements Comparable<Pair<F, S>> {
 	private F first;
 	private S second;
 
@@ -30,11 +30,10 @@ public class Pair<F extends Comparable, S extends Comparable> implements Compara
 	}
 
 	@Override
-	public int compareTo(Pair o) {
+	public int compareTo(Pair<F, S> o) {
 		int comp1 = first.compareTo(o.getFirst());
 		if(comp1 == 0)
 			return second.compareTo(o.getSecond());
 		return comp1;
 	}
-
 }

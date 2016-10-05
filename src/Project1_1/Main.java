@@ -51,14 +51,14 @@ public class Main {
 		}
 
 		String temp;
-		Function<State> transFunc = new Function<>();
+		Function<Pair<State, Symbol>, State> transFunc = new Function<>();
 
 		while(sc.hasNextLine() && !(temp = sc.nextLine().trim()).equals("Initial state")) {
 			tmparr = temp.split(",");
 			State prevState = new State(tmparr[0]);
 			Symbol symbol = new Symbol(tmparr[1]);
 			State nextState = new State(tmparr[2]);
-			transFunc.addMapping(prevState, symbol, nextState);
+			transFunc.addMapping(new Pair<>(prevState, symbol), nextState);
 		}
 		if(!sc.hasNextLine()) {
 			System.err.println("Bad format in dfa.txt");
@@ -109,7 +109,13 @@ public class Main {
 		// for(State s : finalStates)
 		// System.out.print(s + " ");
 
+		boolean firstline = true;
+
 		fdsa: while(sc.hasNextLine()) {
+			if(firstline)
+				firstline = false;
+			else
+				pw.println();
 			temp = sc.nextLine();
 			ArrayList<String> inputs = new ArrayList<>();
 			while(!temp.isEmpty()) {
@@ -154,7 +160,7 @@ public class Main {
 			if(flag) {
 				if(finalStates.contains(present)) {
 					// System.out.println("ï¿½ï¿½");
-					pw.println("ï¿½ï¿½");
+					pw.print("³×");
 					continue fdsa;
 				}
 				// else
@@ -162,7 +168,7 @@ public class Main {
 			}
 			// System.out.println("ASDF");
 			// System.out.println("ï¿½Æ´Ï¿ï¿½");
-			pw.println("ï¿½Æ´Ï¿ï¿½");
+			pw.print("¾Æ´Ï¿ä");
 		}
 
 		// TODO
