@@ -18,14 +18,14 @@ public class Main {
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File("mealy.txt"));
-		} catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			System.err.println("No input: mealy.txt");
 			System.exit(0);
 		}
 
-		while(sc.hasNextLine() && !sc.nextLine().trim().equals("State"))
+		while (sc.hasNextLine() && !sc.nextLine().trim().equals("State"))
 			;
-		if(!sc.hasNextLine()) {
+		if (!sc.hasNextLine()) {
 			System.err.println("Bad format in mealy.txt");
 			System.exit(0);
 		}
@@ -35,24 +35,24 @@ public class Main {
 		tmparr = sc.nextLine().trim().split(",");
 
 		ArrayList<State> states = new ArrayList<>();
-		for(String s : tmparr)
+		for (String s : tmparr)
 			states.add(new State(s));
 
-		while(sc.hasNextLine() && !sc.nextLine().trim().equals("Input symbol"))
+		while (sc.hasNextLine() && !sc.nextLine().trim().equals("Input symbol"))
 			;
-		if(!sc.hasNextLine()) {
+		if (!sc.hasNextLine()) {
 			System.err.println("Bad format in mealy.txt");
 			System.exit(0);
 		}
 
 		tmparr = sc.nextLine().trim().split(",");
 		ArrayList<Symbol> symbols = new ArrayList<>();
-		for(String s : tmparr)
+		for (String s : tmparr)
 			symbols.add(new Symbol(s));
 
-		while(sc.hasNextLine() && !sc.nextLine().trim().equals("State transition function"))
+		while (sc.hasNextLine() && !sc.nextLine().trim().equals("State transition function"))
 			;
-		if(!sc.hasNextLine()) {
+		if (!sc.hasNextLine()) {
 			System.err.println("Bad format in mealy.txt");
 			System.exit(0);
 		}
@@ -60,71 +60,59 @@ public class Main {
 		String temp;
 		Function<Pair<State, Symbol>, State> transFunc = new Function<>();
 
-		while(sc.hasNextLine() && !(temp = sc.nextLine().trim()).equals("Output symbol")) {
+		while (sc.hasNextLine() && !(temp = sc.nextLine().trim()).equals("Output symbol")) {
 			tmparr = temp.split(",");
 			State prevState = new State(tmparr[0]);
 			Symbol symbol = new Symbol(tmparr[1]);
 			State nextState = new State(tmparr[2]);
 			transFunc.addMapping(new Pair<>(prevState, symbol), nextState);
 		}
-		if(!sc.hasNextLine()) {
-			System.err.println("Bad format in mealy.txtA");
+		if (!sc.hasNextLine()) {
+			System.err.println("Bad format in mealy.txt");
 			System.exit(0);
 		}
 
 		// while(sc.hasNextLine() && !sc.nextLine().trim().equals("Output
 		// symbol"))
 		// ;
-		if(!sc.hasNextLine()) {
-			System.err.println("Bad format in mealy.txtB");
+		if (!sc.hasNextLine()) {
+			System.err.println("Bad format in mealy.txt");
 			System.exit(0);
 		}
 
 		tmparr = sc.nextLine().trim().split(",");
 		ArrayList<Symbol> outputSymbols = new ArrayList<>();
-		for(String s : tmparr)
+		for (String s : tmparr)
 			outputSymbols.add(new Symbol(s));
 
-		while(sc.hasNextLine() && !sc.nextLine().trim().equals("Output function"))
+		while (sc.hasNextLine() && !sc.nextLine().trim().equals("Output function"))
 			;
-		if(!sc.hasNextLine()) {
-			System.err.println("Bad format in mealy.txtC");
+		if (!sc.hasNextLine()) {
+			System.err.println("Bad format in mealy.txt");
 			System.exit(0);
 		}
 
 		Function<Pair<State, Symbol>, Symbol> outputFunc = new Function<>();
 
-		while(sc.hasNextLine() && !(temp = sc.nextLine().trim()).equals("Initial state")) {
+		while (sc.hasNextLine() && !(temp = sc.nextLine().trim()).equals("Initial state")) {
 			tmparr = temp.split(",");
 			State prevState = new State(tmparr[0]);
 			Symbol symbol = new Symbol(tmparr[1]);
 			Symbol outputSymbol = new Symbol(tmparr[2]);
 			outputFunc.addMapping(new Pair<>(prevState, symbol), outputSymbol);
 		}
-		if(!sc.hasNextLine()) {
-			System.err.println("Bad format in mealy.txtD");
+		if (!sc.hasNextLine()) {
+			System.err.println("Bad format in mealy.txt");
 			System.exit(0);
 		}
 
 		State initState = new State(sc.nextLine().trim());
-		// while(sc.hasNextLine() && !sc.nextLine().trim().equals("Final
-		// state"))
-		// ;
-		// if(!sc.hasNextLine()) {
-		// System.err.println("Bad format in mealy.txtE");
-		// System.exit(0);
-		// }
-
-		// ArrayList<State> finalStates = new ArrayList<>();
-		// tmparr = sc.nextLine().trim().split(",");
-		// for(String s : tmparr)
-		// finalStates.add(new State(s));
 
 		// TODO
 		sc.close();
 		try {
 			sc = new Scanner(new File("input.txt"));
-		} catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			System.err.println("No input: input.txt");
 			System.exit(0);
 		}
@@ -132,7 +120,7 @@ public class Main {
 		PrintWriter pw = null;
 		try {
 			pw = new PrintWriter(new File("output.txt"));
-		} catch(FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			System.err.println("Can't write output.txt");
 			System.exit(0);
 		}
@@ -144,7 +132,7 @@ public class Main {
 		// System.out.print(s + " ");
 		// System.out.println();
 		// System.out.println(transFunc);
-		//
+
 		// System.out.println();
 		// System.out.println(initState);
 		// System.out.println();
@@ -153,20 +141,20 @@ public class Main {
 
 		boolean firstline = true;
 
-		while(sc.hasNextLine()) {
+		while (sc.hasNextLine()) {
 			temp = sc.nextLine();
-			if(temp.equals("end"))
+			if (temp.equals("end"))
 				break;
 
-			if(firstline)
+			if (firstline)
 				firstline = false;
 			else
 				pw.println();
 
 			ArrayList<String> inputs = new ArrayList<>();
-			while(!temp.isEmpty()) {
-				for(Symbol s : symbols) {
-					if(temp.startsWith(s.getName())) {
+			while (!temp.isEmpty()) {
+				for (Symbol s : symbols) {
+					if (temp.startsWith(s.getName())) {
 						inputs.add(s.getName());
 						temp = temp.substring(s.getName().length());
 						break;
@@ -175,9 +163,9 @@ public class Main {
 			}
 			ArrayList<Symbol> output = new ArrayList<>();
 
-			for(String s : inputs)
-				System.out.print(s + " ");
-			System.out.println();
+			// for(String s : inputs)
+			// System.out.print(s + " ");
+			// System.out.println();
 
 			State present = initState;
 
@@ -185,35 +173,24 @@ public class Main {
 
 			TreeMap<Pair<State, Symbol>, State> mapping = transFunc.getMapping();
 			TreeMap<Pair<State, Symbol>, Symbol> outMapping = outputFunc.getMapping();
-			asdf: for(String s : inputs) {
+			asdf: for (String s : inputs) {
 				Pair<State, Symbol> key = new Pair<>(present, new Symbol(s));
 				// System.out.println(key);
-				if(mapping.containsKey(key)) {
+				if (mapping.containsKey(key)) {
 					present = mapping.get(key);
 					output.add(outMapping.get(key));
 					continue asdf;
 				}
 
-				// for (String[] c : transFunc) {
-				// if (c.length >= 3) {
-				// if (c[0].equals(present) && c[1].equals(s)) {
-				// present = c[2];
-				// continue asdf;
-				// }
-				// }
-				// }
 				flag = false;
 				break;
 			}
 			// System.out.println("FINAL: " + present);
-			if(flag) {
+			if (flag) {
 				// pw.println(output);
-				for(Symbol s : output)
+				for (Symbol s : output)
 					pw.print(s);
 			} else
-				// System.out.println("ASDF");
-				// System.out.println("�ƴϿ�");
-				// pw.println("�ƴϿ�");
 				pw.print("No path exists!");
 		}
 
