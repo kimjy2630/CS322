@@ -12,7 +12,7 @@ import common.State;
 import common.Symbol;
 import common.Function;
 
-public class Main {
+public class Main1_2 {
 	public static void main(String[] args) {
 		// TODO
 		Scanner sc = null;
