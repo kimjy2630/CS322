@@ -13,12 +13,12 @@ public class ComparableSet<T extends Comparable<T>> extends TreeSet<T> implement
 	public ComparableSet(Collection<? extends T> c) {
 		super(c);
 	}
-	
+
 	@Override
-	public boolean contains(Object o){
+	public boolean contains(Object o) {
 		Iterator<T> it1 = this.iterator();
-		while(it1.hasNext())
-			if(it1.next().equals(o))
+		while (it1.hasNext())
+			if (it1.next().equals(o))
 				return true;
 		return false;
 	}
@@ -27,9 +27,10 @@ public class ComparableSet<T extends Comparable<T>> extends TreeSet<T> implement
 	public boolean equals(Object o) {
 		if (o instanceof ComparableSet<?>) {
 			ComparableSet<T> c = (ComparableSet<T>) o;
-//			System.out.println("ASDF: " + this);
-//			System.out.println("ASDF: " + c);
-//			System.out.println("ASDF: " + this.containsAll(c) + " " + c.containsAll(this));
+			// System.out.println("ASDF: " + this);
+			// System.out.println("ASDF: " + c);
+			// System.out.println("ASDF: " + this.containsAll(c) + " " +
+			// c.containsAll(this));
 			return this.containsAll(c) && c.containsAll(this);
 		}
 		return false;
@@ -49,4 +50,10 @@ public class ComparableSet<T extends Comparable<T>> extends TreeSet<T> implement
 			return 1;
 		return -1;
 	}
+
+//	@Override
+//	public int hashCode() {
+//		return 0;
+//
+//	}
 }

@@ -11,7 +11,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import common.ComparableSet;
+import common.DFA;
 import common.Function;
+import common.NFA;
 import common.NondeterministicFunction;
 import common.Pair;
 import common.State;
@@ -40,7 +42,7 @@ public class Main2_1 {
 
 		tmparr = sc.nextLine().trim().split(",");
 
-		ArrayList<State> states = new ArrayList<>();
+		ComparableSet<State> states = new ComparableSet<>();
 		for (String s : tmparr)
 			states.add(new State(s));
 
@@ -52,7 +54,7 @@ public class Main2_1 {
 		}
 
 		tmparr = sc.nextLine().trim().split(",");
-		ArrayList<Symbol> symbols = new ArrayList<>();
+		ComparableSet<Symbol> symbols = new ComparableSet<>();
 		for (String s : tmparr)
 			symbols.add(new Symbol(s));
 
@@ -64,7 +66,7 @@ public class Main2_1 {
 		}
 
 		String temp;
-		Function<Pair<State, Symbol>, State> transFunc = new Function<>();
+		NondeterministicFunction<Pair<State, Symbol>, State> transFunc = new NondeterministicFunction<>();
 
 		while (sc.hasNextLine() && !(temp = sc.nextLine().trim()).equals("Initial state")) {
 			tmparr = temp.split(",");
@@ -86,7 +88,7 @@ public class Main2_1 {
 			System.exit(0);
 		}
 
-		ArrayList<State> finalStates = new ArrayList<>();
+		ComparableSet<State> finalStates = new ComparableSet<>();
 		tmparr = sc.nextLine().trim().split(",");
 		for (String s : tmparr)
 			finalStates.add(new State(s));
@@ -102,11 +104,19 @@ public class Main2_1 {
 
 		PrintWriter pw = null;
 		try {
-			pw = new PrintWriter(new File("output.txt"));
+			pw = new PrintWriter(new File("dfa.txt"));
 		} catch (FileNotFoundException e) {
-			System.err.println("Can't write output.txt");
+			System.err.println("Can't write dfa.txt");
 			System.exit(0);
 		}
+
+		NFA enfa = new NFA(states, symbols, transFunc, initState, finalStates);
+
+		// eNFAToDFA(states, symbols, transFunc, initState, finalStates);
+		DFA dfa = eNFAToDFA(enfa);
+
+		DFA mDFA = dfa.minimalize();
+		mDFA.printToFile("m-dfa.txt");
 
 		// for(State s : states)
 		// System.out.print(s + " ");
@@ -122,68 +132,6 @@ public class Main2_1 {
 		// for(State s : finalStates)
 		// System.out.print(s + " ");
 
-		boolean firstline = true;
-
-		fdsa: while (sc.hasNextLine()) {
-			if (firstline)
-				firstline = false;
-			else
-				pw.println();
-			temp = sc.nextLine();
-			ArrayList<String> inputs = new ArrayList<>();
-			while (!temp.isEmpty()) {
-				for (Symbol s : symbols) {
-					if (temp.startsWith(s.getName())) {
-						inputs.add(s.getName());
-						temp = temp.substring(s.getName().length());
-						break;
-					}
-				}
-			}
-
-			// for(String s : inputs)
-			// System.out.print(s + " ");
-			// System.out.println();
-
-			State present = initState;
-
-			boolean flag = true;
-
-			TreeMap<Pair<State, Symbol>, State> mapping = transFunc.getMapping();
-			asdf: for (String s : inputs) {
-				Pair<State, Symbol> key = new Pair<>(present, new Symbol(s));
-				// System.out.println(key);
-				if (mapping.containsKey(key)) {
-					present = mapping.get(key);
-					continue asdf;
-				}
-
-				// for (String[] c : transFunc) {
-				// if (c.length >= 3) {
-				// if (c[0].equals(present) && c[1].equals(s)) {
-				// present = c[2];
-				// continue asdf;
-				// }
-				// }
-				// }
-				flag = false;
-				break;
-			}
-			// System.out.println("FINAL: " + present);
-			if (flag) {
-				if (finalStates.contains(present)) {
-					// System.out.println("��");
-					pw.print("��");
-					continue fdsa;
-				}
-				// else
-				// System.out.println("ASDF");
-			}
-			// System.out.println("ASDF");
-			// System.out.println("�ƴϿ�");
-			pw.print("�ƴϿ�");
-		}
-
 		// TODO
 		pw.flush();
 		pw.close();
@@ -192,24 +140,28 @@ public class Main2_1 {
 		sc.close();
 	}
 
-	public static void eNFAToDFA(ArrayList<State> Q, ArrayList<Symbol> S, State q,
-			NondeterministicFunction<Pair<State, Symbol>, State> func) {
+	// public static void eNFAToDFA(ArrayList<State> Q, ArrayList<Symbol> S,
+	// NondeterministicFunction<Pair<State, Symbol>, State> func, State q0,
+	// ArrayList<State> F) {
+	public static DFA eNFAToDFA(NFA enfa) {
 		LinkedList<ComparableSet<State>> que = new LinkedList<>();
 		ComparableSet<ComparableSet<State>> visited = new ComparableSet<>();
 		ComparableSet<State> set = new ComparableSet<>();
+		ComparableSet<State> init = new ComparableSet<>();
 		// ComparableSet<State> zero, one;
 
 		HashMap<ComparableSet<State>, State> state_dfa = new HashMap<>();
 		int cnt = 0;
 
-		set.add(q);
-		set = getEpsillonClosure(set, func);
+		set.add(enfa.q0);
+		set = getEpsillonClosure(set, enfa.func);
+		init = set;
 
 		que.add(set);
 
 		Function<Pair<State, Symbol>, State> func_dfa = new Function<>();
 
-		System.out.println(func);
+		System.out.println(enfa.func);
 
 		// visited.add(set);
 		// System.out.println(visited);
@@ -230,11 +182,17 @@ public class Main2_1 {
 			}
 			visited.add(set);
 
-			for (Symbol s : S) {
-				ComparableSet<State> next = getEpsillonClosure(getNext(getEpsillonClosure(set, func), func, s), func);
+			for (Symbol s : enfa.S) {
+				ComparableSet<State> next = getEpsillonClosure(
+						getNext(getEpsillonClosure(set, enfa.func), enfa.func, s), enfa.func);
 
+				System.out.println("NEXT " + s + " " + next);
+				// System.out.println(next.hashCode());
+				// System.out.println("KEY "+state_dfa.keySet());
 				if (!state_dfa.containsKey(next))
 					state_dfa.put(next, new State("a" + cnt++));
+
+				// System.out.println(state_dfa.get(next));
 
 				func_dfa.addMapping(new Pair<State, Symbol>(state_dfa.get(set), s), state_dfa.get(next));
 
@@ -264,10 +222,22 @@ public class Main2_1 {
 			// que.offer(one);
 		}
 
+		ComparableSet<State> finalStates = new ComparableSet<>();
+		for (ComparableSet<State> q : visited) {
+			ComparableSet<State> tmp = new ComparableSet<>();
+			tmp.addAll(q);
+			tmp.retainAll(enfa.F);
+			if (!tmp.isEmpty())
+				finalStates.add(state_dfa.get(q));
+		}
+
 		System.out.println(visited);
 		System.out.println(state_dfa);
 		System.out.println(func_dfa);
+		System.out.println(finalStates);
 
+		DFA dfa = new DFA(new ComparableSet<>(state_dfa.values()), enfa.S, func_dfa, state_dfa.get(init), finalStates);
+		return dfa;
 	}
 
 	public static ComparableSet<State> getNext(ComparableSet<State> states,
@@ -286,7 +256,7 @@ public class Main2_1 {
 	public static ComparableSet<State> getEpsillonClosure(ComparableSet<State> states,
 			NondeterministicFunction<Pair<State, Symbol>, State> transFunc) {
 		ComparableSet<State> ret = new ComparableSet<>(states);
-		Symbol epsillon = new Symbol("e");
+		Symbol epsillon = new Symbol("E");
 		TreeMap<Pair<State, Symbol>, TreeSet<State>> map = transFunc.getMapping();
 		for (State s : states) {
 			Pair<State, Symbol> key = new Pair<>(s, epsillon);

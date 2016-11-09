@@ -18,7 +18,7 @@ public class State implements Comparable<State> {
 
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof State)
+		if (o instanceof State)
 			return this.name.equals(((State) o).getName());
 		return false;
 	}
@@ -28,4 +28,8 @@ public class State implements Comparable<State> {
 		return this.name.compareTo(s.getName());
 	}
 
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 }

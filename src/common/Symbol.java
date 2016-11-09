@@ -18,7 +18,7 @@ public class Symbol implements Comparable<Symbol> {
 
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof Symbol)
+		if (o instanceof Symbol)
 			return name.equals(((State) o).getName());
 		return false;
 	}
@@ -26,5 +26,10 @@ public class Symbol implements Comparable<Symbol> {
 	@Override
 	public int compareTo(Symbol s) {
 		return name.compareTo(s.getName());
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
 	}
 }
