@@ -2,8 +2,6 @@ package Project2_1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -102,53 +100,22 @@ public class Main2_1 {
 			System.exit(0);
 		}
 
-		PrintWriter pw = null;
-		try {
-			pw = new PrintWriter(new File("dfa.txt"));
-		} catch (FileNotFoundException e) {
-			System.err.println("Can't write dfa.txt");
-			System.exit(0);
-		}
-
 		NFA enfa = new NFA(states, symbols, transFunc, initState, finalStates);
 
-		// eNFAToDFA(states, symbols, transFunc, initState, finalStates);
 		DFA dfa = eNFAToDFA(enfa);
 
 		DFA mDFA = dfa.minimalize();
 		mDFA.printToFile("m-dfa.txt");
 
-		// for(State s : states)
-		// System.out.print(s + " ");
-		// System.out.println();
-		// for(Symbol s : symbols)
-		// System.out.print(s + " ");
-		// System.out.println();
-		// System.out.println(transFunc);
-		//
-		// System.out.println();
-		// System.out.println(initState);
-		// System.out.println();
-		// for(State s : finalStates)
-		// System.out.print(s + " ");
-
-		// TODO
-		pw.flush();
-		pw.close();
-
 		// TODO
 		sc.close();
 	}
 
-	// public static void eNFAToDFA(ArrayList<State> Q, ArrayList<Symbol> S,
-	// NondeterministicFunction<Pair<State, Symbol>, State> func, State q0,
-	// ArrayList<State> F) {
 	public static DFA eNFAToDFA(NFA enfa) {
 		LinkedList<ComparableSet<State>> que = new LinkedList<>();
 		ComparableSet<ComparableSet<State>> visited = new ComparableSet<>();
 		ComparableSet<State> set = new ComparableSet<>();
 		ComparableSet<State> init = new ComparableSet<>();
-		// ComparableSet<State> zero, one;
 
 		HashMap<ComparableSet<State>, State> state_dfa = new HashMap<>();
 		int cnt = 0;
@@ -163,21 +130,11 @@ public class Main2_1 {
 
 		System.out.println(enfa.func);
 
-		// visited.add(set);
-		// System.out.println(visited);
-		// System.out.println(visited.contains(set));
-		// set = new ComparableSet<>();
-		// set.add(q[0]);
-		// set.add(q[2]);
-		// System.out.println(visited.contains(set));
-		// System.exit(0);
-
 		state_dfa.put(set, new State("a" + cnt++));
 
 		while (!que.isEmpty()) {
 			set = que.poll();
 			if (visited.contains(set)) {
-				// System.out.println("ASDFASDFASDF");
 				continue;
 			}
 			visited.add(set);
@@ -187,39 +144,16 @@ public class Main2_1 {
 						getNext(getEpsillonClosure(set, enfa.func), enfa.func, s), enfa.func);
 
 				System.out.println("NEXT " + s + " " + next);
-				// System.out.println(next.hashCode());
-				// System.out.println("KEY "+state_dfa.keySet());
 				if (!state_dfa.containsKey(next))
 					state_dfa.put(next, new State("a" + cnt++));
-
-				// System.out.println(state_dfa.get(next));
 
 				func_dfa.addMapping(new Pair<State, Symbol>(state_dfa.get(set), s), state_dfa.get(next));
 
 				que.offer(next);
 			}
 
-			// zero = getEpsillonClosure(getNext(getEpsillonClosure(set, func),
-			// func, s[0]), func);
-			// one = getEpsillonClosure(getNext(getEpsillonClosure(set, func),
-			// func, s[1]), func);
-
-			// if (!state_dfa.containsKey(zero))
-			// state_dfa.put(zero, new State("a" + cnt++));
-			// if (!state_dfa.containsKey(one))
-			// state_dfa.put(one, new State("a" + cnt++));
-
-			// func_dfa.addMapping(new Pair<State, Symbol>(state_dfa.get(set),
-			// s[0]), state_dfa.get(zero));
-			// func_dfa.addMapping(new Pair<State, Symbol>(state_dfa.get(set),
-			// s[1]), state_dfa.get(one));
-
 			System.out.println("SET " + set);
-			// System.out.println("ZERO " + zero);
-			// System.out.println("ONE " + one);
 			System.out.println("VISITED" + visited);
-			// que.offer(zero);
-			// que.offer(one);
 		}
 
 		ComparableSet<State> finalStates = new ComparableSet<>();
