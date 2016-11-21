@@ -95,6 +95,7 @@ public class Main1_1 {
 			System.exit(0);
 		}
 
+		// TODO
 		// for(State s : states)
 		// System.out.print(s + " ");
 		// System.out.println();
@@ -117,6 +118,8 @@ public class Main1_1 {
 			else
 				pw.println();
 			temp = sc.nextLine();
+			if(temp.equals("end"))
+				break fdsa;
 			ArrayList<String> inputs = new ArrayList<>();
 			while(!temp.isEmpty()) {
 				for(Symbol s : symbols) {
@@ -128,6 +131,7 @@ public class Main1_1 {
 				}
 			}
 
+			// TODO
 			// for(String s : inputs)
 			// System.out.print(s + " ");
 			// System.out.println();
@@ -145,17 +149,19 @@ public class Main1_1 {
 					continue asdf;
 				}
 
-				// for (String[] c : transFunc) {
-				// if (c.length >= 3) {
-				// if (c[0].equals(present) && c[1].equals(s)) {
+				// TODO
+				// for(String[] c : transFunc) {
+				// if(c.length >= 3) {
+				// if(c[0].equals(present) && c[1].equals(s)) {
 				// present = c[2];
 				// continue asdf;
 				// }
 				// }
 				// }
-				flag = false;
-				break;
+				// flag = false;
+				// break;
 			}
+			// TODO
 			// System.out.println("FINAL: " + present);
 			if(flag) {
 				if(finalStates.contains(present)) {
