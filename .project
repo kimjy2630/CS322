@@ -14,4 +14,10 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>CLASSPATH</name>
+			<value>file:/Users/Jaeyoon/git/CS322/antlr-4.5.3-complete.jar</value>
+		</variable>
+	</variableList>
 </projectDescription>
