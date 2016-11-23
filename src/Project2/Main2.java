@@ -19,11 +19,13 @@ public class Main2 {
 			input = new ANTLRInputStream(new FileInputStream("re.txt"));
 		} catch (FileNotFoundException e) {
 			System.err.println("No input: re.txt");
-			System.exit(0);
+			System.exit(-1);
 		} catch (IOException e) {
 			System.err.println("I/O error occured!!");
-			System.exit(0);
+			System.exit(-1);
 		}
+		
+		try{
 		RegularExprLexer lexer = new RegularExprLexer(input);
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		RegularExprParser parser = new RegularExprParser(tokens);
@@ -35,7 +37,10 @@ public class Main2 {
 		walker.walk(listener, tree);
 
 		Main2_1.eNFAToDFA(listener.stack.peek()).minimalize().printToFile("m-dfa.txt");
-
+		}catch(Exception e){
+			System.err.println("parsing error!!");
+			System.exit(-1);
+		}
 	}
 
 }
