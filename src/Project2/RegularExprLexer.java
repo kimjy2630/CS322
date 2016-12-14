@@ -23,7 +23,7 @@ public class RegularExprLexer extends Lexer {
 
 	public static final String[] ruleNames = { "T__0", "T__1", "T__2", "T__3", "Id", "E", "WS" };
 
-	private static final String[] _LITERAL_NAMES = { null, "'*'", "'('", "')'", "'+'" };
+	private static final String[] _LITERAL_NAMES = { null, "'*'", "'('", "')'", "'+'", null, "'()'" };
 	private static final String[] _SYMBOLIC_NAMES = { null, null, null, null, null, "Id", "E", "WS" };
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 

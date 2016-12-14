@@ -1,4 +1,3 @@
-
 // Generated from RegularExpr.g4 by ANTLR 4.5.3
 package Project2;
 
@@ -65,7 +64,7 @@ public class RegularExprBaseListener implements RegularExprListener {
 	 */
 	@Override
 	public void exitClosure_union(RegularExprParser.Closure_unionContext ctx) {
-//		System.out.println("STAR");
+		// System.out.println("STAR");
 		stack.push(NFA.getClosure(stack.pop()));
 	}
 
@@ -89,8 +88,8 @@ public class RegularExprBaseListener implements RegularExprListener {
 	 */
 	@Override
 	public void exitClosure_id(RegularExprParser.Closure_idContext ctx) {
-//		System.out.println("CLOSURE ID");
-//		System.out.println(ctx.getText());
+		// System.out.println("CLOSURE ID");
+		// System.out.println(ctx.getText());
 		stack.push(NFA.getClosure(NFA.getTerminalNFA(ctx.getText().substring(0, 1))));
 	}
 
@@ -206,8 +205,8 @@ public class RegularExprBaseListener implements RegularExprListener {
 	 */
 	@Override
 	public void exitConcat_base(RegularExprParser.Concat_baseContext ctx) {
-//		System.out.println("CONCAT BASE");
-//		System.out.println(ctx.getText());
+		// System.out.println("CONCAT BASE");
+		// System.out.println(ctx.getText());
 	}
 
 	/**
@@ -218,7 +217,7 @@ public class RegularExprBaseListener implements RegularExprListener {
 	 * </p>
 	 */
 	@Override
-	public void enterString(RegularExprParser.StringContext ctx) {
+	public void enterStr_nonmt(RegularExprParser.Str_nonmtContext ctx) {
 	}
 
 	/**
@@ -229,9 +228,32 @@ public class RegularExprBaseListener implements RegularExprListener {
 	 * </p>
 	 */
 	@Override
-	public void exitString(RegularExprParser.StringContext ctx) {
-//		System.out.println(ctx.getText());
+	public void exitStr_nonmt(RegularExprParser.Str_nonmtContext ctx) {
+		// System.out.println(ctx.getText());
 		stack.push(NFA.getTerminalNFA(ctx.getText()));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>
+	 * The default implementation does nothing.
+	 * </p>
+	 */
+	@Override
+	public void enterStr_mt(RegularExprParser.Str_mtContext ctx) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>
+	 * The default implementation does nothing.
+	 * </p>
+	 */
+	@Override
+	public void exitStr_mt(RegularExprParser.Str_mtContext ctx) {
+		stack.push(NFA.getEpsilonNFA());
 	}
 
 	/**

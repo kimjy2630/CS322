@@ -149,18 +149,38 @@ public interface RegularExprListener extends ParseTreeListener {
 	void exitConcat_base(RegularExprParser.Concat_baseContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link RegularExprParser#string}.
+	 * Enter a parse tree produced by the {@code str_nonmt} labeled alternative
+	 * in {@link RegularExprParser#string}.
 	 * 
 	 * @param ctx
 	 *            the parse tree
 	 */
-	void enterString(RegularExprParser.StringContext ctx);
+	void enterStr_nonmt(RegularExprParser.Str_nonmtContext ctx);
 
 	/**
-	 * Exit a parse tree produced by {@link RegularExprParser#string}.
+	 * Exit a parse tree produced by the {@code str_nonmt} labeled alternative
+	 * in {@link RegularExprParser#string}.
 	 * 
 	 * @param ctx
 	 *            the parse tree
 	 */
-	void exitString(RegularExprParser.StringContext ctx);
+	void exitStr_nonmt(RegularExprParser.Str_nonmtContext ctx);
+
+	/**
+	 * Enter a parse tree produced by the {@code str_mt} labeled alternative in
+	 * {@link RegularExprParser#string}.
+	 * 
+	 * @param ctx
+	 *            the parse tree
+	 */
+	void enterStr_mt(RegularExprParser.Str_mtContext ctx);
+
+	/**
+	 * Exit a parse tree produced by the {@code str_mt} labeled alternative in
+	 * {@link RegularExprParser#string}.
+	 * 
+	 * @param ctx
+	 *            the parse tree
+	 */
+	void exitStr_mt(RegularExprParser.Str_mtContext ctx);
 }

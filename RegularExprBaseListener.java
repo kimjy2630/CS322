@@ -111,13 +111,25 @@ public class RegularExprBaseListener implements RegularExprListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterString(RegularExprParser.StringContext ctx) { }
+	@Override public void enterStr_nonmt(RegularExprParser.Str_nonmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitString(RegularExprParser.StringContext ctx) { }
+	@Override public void exitStr_nonmt(RegularExprParser.Str_nonmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStr_mt(RegularExprParser.Str_mtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStr_mt(RegularExprParser.Str_mtContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

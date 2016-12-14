@@ -23,7 +23,7 @@ public class RegularExprParser extends Parser {
 			RULE_string = 5;
 	public static final String[] ruleNames = { "expr", "closure", "union", "union_term", "concat", "string" };
 
-	private static final String[] _LITERAL_NAMES = { null, "'*'", "'('", "')'", "'+'" };
+	private static final String[] _LITERAL_NAMES = { null, "'*'", "'('", "')'", "'+'", null, "'()'" };
 	private static final String[] _SYMBOLIC_NAMES = { null, null, null, null, null, "Id", "E", "WS" };
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -566,14 +566,6 @@ public class RegularExprParser extends Parser {
 	}
 
 	public static class StringContext extends ParserRuleContext {
-		public List<TerminalNode> Id() {
-			return getTokens(RegularExprParser.Id);
-		}
-
-		public TerminalNode Id(int i) {
-			return getToken(RegularExprParser.Id, i);
-		}
-
 		public StringContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -583,16 +575,59 @@ public class RegularExprParser extends Parser {
 			return RULE_string;
 		}
 
+		public StringContext() {
+		}
+
+		public void copyFrom(StringContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+
+	public static class Str_mtContext extends StringContext {
+		public TerminalNode E() {
+			return getToken(RegularExprParser.E, 0);
+		}
+
+		public Str_mtContext(StringContext ctx) {
+			copyFrom(ctx);
+		}
+
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if (listener instanceof RegularExprListener)
-				((RegularExprListener) listener).enterString(this);
+				((RegularExprListener) listener).enterStr_mt(this);
 		}
 
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if (listener instanceof RegularExprListener)
-				((RegularExprListener) listener).exitString(this);
+				((RegularExprListener) listener).exitStr_mt(this);
+		}
+	}
+
+	public static class Str_nonmtContext extends StringContext {
+		public List<TerminalNode> Id() {
+			return getTokens(RegularExprParser.Id);
+		}
+
+		public TerminalNode Id(int i) {
+			return getToken(RegularExprParser.Id, i);
+		}
+
+		public Str_nonmtContext(StringContext ctx) {
+			copyFrom(ctx);
+		}
+
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if (listener instanceof RegularExprListener)
+				((RegularExprListener) listener).enterStr_nonmt(this);
+		}
+
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if (listener instanceof RegularExprListener)
+				((RegularExprListener) listener).exitStr_nonmt(this);
 		}
 	}
 
@@ -601,8 +636,11 @@ public class RegularExprParser extends Parser {
 		enterRule(_localctx, 10, RULE_string);
 		try {
 			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
+			setState(56);
+			switch (_input.LA(1)) {
+			case Id:
+				_localctx = new Str_nonmtContext(_localctx);
+				enterOuterAlt(_localctx, 1); {
 				setState(51);
 				_errHandler.sync(this);
 				_alt = 1;
@@ -623,6 +661,17 @@ public class RegularExprParser extends Parser {
 					_alt = getInterpreter().adaptivePredict(_input, 6, _ctx);
 				} while (_alt != 2 && _alt != org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER);
 			}
+				break;
+			case E:
+				_localctx = new Str_mtContext(_localctx);
+				enterOuterAlt(_localctx, 2); {
+				setState(55);
+				match(E);
+			}
+				break;
+			default:
+				throw new NoViableAltException(this);
+			}
 		} catch (RecognitionException re) {
 			_localctx.exception = re;
 			_errHandler.reportError(this, re);
@@ -633,22 +682,23 @@ public class RegularExprParser extends Parser {
 		return _localctx;
 	}
 
-	public static final String _serializedATN = "\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t:\4\2\t\2\4\3\t"
+	public static final String _serializedATN = "\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t=\4\2\t\2\4\3\t"
 			+ "\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\3\2\5\2\23\n\2\3\3\3\3"
 			+ "\3\3\3\3\3\3\5\3\32\n\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\5\5%\n\5\3"
 			+ "\6\3\6\3\6\5\6*\n\6\3\6\3\6\3\6\3\6\3\6\5\6\61\n\6\5\6\63\n\6\3\7\6\7"
-			+ "\66\n\7\r\7\16\7\67\3\7\2\2\b\2\4\6\b\n\f\2\2>\2\22\3\2\2\2\4\31\3\2\2"
-			+ "\2\6\33\3\2\2\2\b$\3\2\2\2\n\62\3\2\2\2\f\65\3\2\2\2\16\23\5\4\3\2\17"
-			+ "\23\5\6\4\2\20\23\5\b\5\2\21\23\5\n\6\2\22\16\3\2\2\2\22\17\3\2\2\2\22"
-			+ "\20\3\2\2\2\22\21\3\2\2\2\23\3\3\2\2\2\24\25\5\6\4\2\25\26\7\3\2\2\26"
-			+ "\32\3\2\2\2\27\30\7\7\2\2\30\32\7\3\2\2\31\24\3\2\2\2\31\27\3\2\2\2\32"
-			+ "\5\3\2\2\2\33\34\7\4\2\2\34\35\5\b\5\2\35\36\7\5\2\2\36\7\3\2\2\2\37 "
-			+ "\5\n\6\2 !\7\6\2\2!\"\5\b\5\2\"%\3\2\2\2#%\5\n\6\2$\37\3\2\2\2$#\3\2\2"
-			+ "\2%\t\3\2\2\2&*\5\f\7\2\'*\5\4\3\2(*\5\6\4\2)&\3\2\2\2)\'\3\2\2\2)(\3"
-			+ "\2\2\2*+\3\2\2\2+,\5\n\6\2,\63\3\2\2\2-\61\5\f\7\2.\61\5\4\3\2/\61\5\6"
-			+ "\4\2\60-\3\2\2\2\60.\3\2\2\2\60/\3\2\2\2\61\63\3\2\2\2\62)\3\2\2\2\62"
-			+ "\60\3\2\2\2\63\13\3\2\2\2\64\66\7\7\2\2\65\64\3\2\2\2\66\67\3\2\2\2\67"
-			+ "\65\3\2\2\2\678\3\2\2\28\r\3\2\2\2\t\22\31$)\60\62\67";
+			+ "\66\n\7\r\7\16\7\67\3\7\5\7;\n\7\3\7\2\2\b\2\4\6\b\n\f\2\2B\2\22\3\2\2"
+			+ "\2\4\31\3\2\2\2\6\33\3\2\2\2\b$\3\2\2\2\n\62\3\2\2\2\f:\3\2\2\2\16\23"
+			+ "\5\4\3\2\17\23\5\6\4\2\20\23\5\b\5\2\21\23\5\n\6\2\22\16\3\2\2\2\22\17"
+			+ "\3\2\2\2\22\20\3\2\2\2\22\21\3\2\2\2\23\3\3\2\2\2\24\25\5\6\4\2\25\26"
+			+ "\7\3\2\2\26\32\3\2\2\2\27\30\7\7\2\2\30\32\7\3\2\2\31\24\3\2\2\2\31\27"
+			+ "\3\2\2\2\32\5\3\2\2\2\33\34\7\4\2\2\34\35\5\b\5\2\35\36\7\5\2\2\36\7\3"
+			+ "\2\2\2\37 \5\n\6\2 !\7\6\2\2!\"\5\b\5\2\"%\3\2\2\2#%\5\n\6\2$\37\3\2\2"
+			+ "\2$#\3\2\2\2%\t\3\2\2\2&*\5\f\7\2\'*\5\4\3\2(*\5\6\4\2)&\3\2\2\2)\'\3"
+			+ "\2\2\2)(\3\2\2\2*+\3\2\2\2+,\5\n\6\2,\63\3\2\2\2-\61\5\f\7\2.\61\5\4\3"
+			+ "\2/\61\5\6\4\2\60-\3\2\2\2\60.\3\2\2\2\60/\3\2\2\2\61\63\3\2\2\2\62)\3"
+			+ "\2\2\2\62\60\3\2\2\2\63\13\3\2\2\2\64\66\7\7\2\2\65\64\3\2\2\2\66\67\3"
+			+ "\2\2\2\67\65\3\2\2\2\678\3\2\2\28;\3\2\2\29;\7\b\2\2:\65\3\2\2\2:9\3\2"
+			+ "\2\2;\r\3\2\2\2\n\22\31$)\60\62\67:";
 	public static final ATN _ATN = new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
 		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
