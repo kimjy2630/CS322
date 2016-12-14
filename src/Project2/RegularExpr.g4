@@ -26,7 +26,7 @@ concat
 	;
 
 string
-	: Id+
+	: (Id)+
 	;
 
 Id
